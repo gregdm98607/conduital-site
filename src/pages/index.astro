@@ -346,10 +346,90 @@ import { SITE_TITLE, SITE_DESCRIPTION } from '../consts';
       .lightbox img { max-width: 95vw; max-height: 90vh; border-radius: 8px; object-fit: contain; }
       .lightbox-close { position: absolute; top: 1rem; right: 1.5rem; background: none; border: none; color: white; font-size: 2rem; cursor: pointer; }
 
+      /* === WOW1: Momentum Demo === */
+      .momentum-demo-section { text-align: center; padding: 4rem 1.5rem; background: var(--brand-light, #f0f7ff); }
+      .momentum-demo-section h2 { font-size: 2rem; font-weight: 700; color: var(--text-primary); margin-bottom: 0.5rem; }
+      .momentum-demo-section .section-subtitle { color: #6b7280; max-width: 500px; margin: 0.5rem auto 2rem; font-size: 1.05rem; }
+      .momentum-demo {
+        max-width: 500px; margin: 0 auto; background: white; border-radius: 16px;
+        box-shadow: 0 8px 32px rgba(0,0,0,0.1); padding: 1.5rem; text-align: left;
+      }
+      .demo-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; }
+      .demo-project-name { font-weight: 700; font-size: 1rem; }
+      .demo-score-container { display: flex; align-items: center; gap: 0.5rem; }
+      .demo-score-label { font-size: 0.75rem; text-transform: uppercase; color: #9ca3af; letter-spacing: 0.05em; }
+      .demo-score { font-size: 2rem; font-weight: 800; transition: color 0.3s; }
+      .demo-trend { font-size: 1.2rem; }
+      .demo-sparkline { margin-bottom: 1rem; background: #f9fafb; border-radius: 8px; padding: 0.5rem; }
+      .demo-tasks { display: flex; flex-direction: column; gap: 0.5rem; }
+      .demo-task {
+        padding: 0.6rem 1rem; border-radius: 8px; border: 1.5px solid #e5e7eb;
+        background: white; cursor: pointer; text-align: left; font-size: 0.9rem;
+        font-family: inherit; transition: all 0.2s;
+      }
+      .demo-task:hover:not(.completed) { border-color: var(--brand-primary); background: #f0f7ff; }
+      .demo-task.completed {
+        background: #f0fdf4; border-color: #86efac; color: #6b7280;
+        text-decoration: line-through; cursor: default;
+      }
+      .demo-nudge { text-align: center; margin-top: 1rem; font-size: 0.9rem; min-height: 1.5rem; font-weight: 500; }
+      .demo-reset { display: block; margin: 1rem auto 0; background: none; border: none; color: #9ca3af; cursor: pointer; font-size: 0.85rem; font-family: inherit; }
+      .demo-reset:hover { color: #6b7280; }
+
+      /* === WOW2: Before/After Comparison Slider === */
+      .comparison-section { text-align: center; padding: 4rem 1.5rem; }
+      .comparison-section h2 { font-size: 2rem; font-weight: 700; color: var(--text-primary); margin-bottom: 0.5rem; }
+      .comparison-section .section-subtitle { color: #6b7280; max-width: 500px; margin: 0.5rem auto 2rem; font-size: 1.05rem; }
+      .comparison-container {
+        position: relative; max-width: 900px; margin: 0 auto;
+        border-radius: 16px; overflow: hidden;
+        box-shadow: 0 12px 40px rgba(0,0,0,0.15);
+        aspect-ratio: 16/10; background: #1a1a2e;
+        --split: 50%;
+      }
+      .comparison-before, .comparison-after {
+        position: absolute; inset: 0; overflow: hidden;
+      }
+      .comparison-after { clip-path: inset(0 0 0 var(--split)); }
+      .comparison-after img { width: 100%; height: 100%; object-fit: cover; }
+      .comparison-before { clip-path: inset(0 calc(100% - var(--split)) 0 0); }
+      .chaos-mock { height: 100%; display: flex; flex-direction: column; background: #1e1e2e; color: #ccc; font-size: 0.7rem; }
+      .chaos-header { display: flex; gap: 2px; padding: 0.5rem; background: #2d2d3d; overflow: hidden; }
+      .chaos-tab { padding: 0.3rem 0.6rem; border-radius: 4px 4px 0 0; background: #3d3d4d; white-space: nowrap; }
+      .chaos-tab.active { background: #1e1e2e; color: white; }
+      .chaos-body { display: flex; flex: 1; overflow: hidden; }
+      .chaos-sidebar { width: 30%; padding: 0.5rem; border-right: 1px solid #333; display: flex; flex-direction: column; gap: 0.3rem; }
+      .chaos-item { padding: 0.25rem 0.4rem; border-radius: 4px; white-space: nowrap; overflow: hidden; }
+      .chaos-item.highlight { background: rgba(239,68,68,0.2); color: #fca5a5; }
+      .chaos-item.dim { opacity: 0.4; }
+      .badge { background: #ef4444; color: white; border-radius: 99px; padding: 0 0.4rem; font-size: 0.6rem; margin-left: 0.3rem; }
+      .chaos-main { flex: 1; position: relative; padding: 1rem; }
+      .sticky { position: absolute; padding: 0.5rem; border-radius: 4px; font-size: 0.65rem; color: #1a1a2e; box-shadow: 1px 2px 4px rgba(0,0,0,0.3); }
+      .sticky:nth-child(1) { top: 10%; left: 10%; }
+      .sticky:nth-child(2) { top: 30%; left: 50%; }
+      .sticky:nth-child(3) { top: 55%; left: 15%; }
+      .sticky:nth-child(4) { top: 15%; left: 65%; }
+      .sticky:nth-child(5) { top: 65%; left: 55%; }
+      .chaos-label { position: absolute; bottom: 10%; left: 50%; transform: translateX(-50%); color: #6b7280; font-style: italic; }
+      .chaos-footer { padding: 0.4rem; text-align: center; color: #6b7280; font-size: 0.6rem; border-top: 1px solid #333; }
+      .comparison-handle {
+        position: absolute; top: 0; bottom: 0; left: var(--split);
+        transform: translateX(-50%); display: flex; flex-direction: column;
+        align-items: center; cursor: ew-resize; z-index: 10;
+      }
+      .handle-line { width: 3px; flex: 1; background: white; box-shadow: 0 0 6px rgba(0,0,0,0.5); }
+      .handle-circle {
+        width: 40px; height: 40px; border-radius: 50%; background: white;
+        display: flex; align-items: center; justify-content: center;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.3); font-size: 0.7rem; color: #333; user-select: none;
+      }
+
       @media (max-width: 640px) {
         .hero h1 { font-size: 2rem; }
         .hero { padding: 3rem 1.5rem; }
         .section { padding: 3rem 1.5rem; }
+        .comparison-container { aspect-ratio: 4/3; }
+        .chaos-mock { font-size: 0.55rem; }
       }
     </style>
   </head>
@@ -374,6 +454,56 @@ import { SITE_TITLE, SITE_DESCRIPTION } from '../consts';
         <button type="submit" class="btn-subscribe">Get Updates</button>
       </form>
       <img src="/images/conduital-dashboard.png" alt="Conduital Dashboard — momentum scoring, intelligent inbox, and connected knowledge in one view" class="hero-screenshot" />
+    </section>
+
+    <!-- Before/After Comparison Slider (WOW2) -->
+    <section class="comparison-section">
+      <h2>From Chaos to Clarity</h2>
+      <p class="section-subtitle">Drag the slider to see the difference.</p>
+      <div class="comparison-container" id="comparison">
+        <div class="comparison-before">
+          <div class="chaos-mock">
+            <div class="chaos-header">
+              <span class="chaos-tab active">Projects</span>
+              <span class="chaos-tab">Notes</span>
+              <span class="chaos-tab">Tasks</span>
+              <span class="chaos-tab">Wiki</span>
+              <span class="chaos-tab">+12 more</span>
+            </div>
+            <div class="chaos-body">
+              <div class="chaos-sidebar">
+                <div class="chaos-item">📁 Q1 Planning</div>
+                <div class="chaos-item">📁 Marketing</div>
+                <div class="chaos-item highlight">📁 Launch <span class="badge">47</span></div>
+                <div class="chaos-item">📁 Research</div>
+                <div class="chaos-item">📁 Archive</div>
+                <div class="chaos-item dim">📁 Old stuff...</div>
+                <div class="chaos-item dim">📁 Unsorted</div>
+                <div class="chaos-item dim">📁 Misc</div>
+              </div>
+              <div class="chaos-main">
+                <div class="sticky" style="transform: rotate(-3deg); background: #fde68a;">Buy domain ✓</div>
+                <div class="sticky" style="transform: rotate(2deg); background: #bfdbfe;">Write copy???</div>
+                <div class="sticky" style="transform: rotate(-1deg); background: #fca5a5;">URGENT: fix bug</div>
+                <div class="sticky" style="transform: rotate(4deg); background: #d9f99d;">Review PR</div>
+                <div class="sticky" style="transform: rotate(-2deg); background: #e9d5ff;">Ideas for v2</div>
+                <div class="chaos-label">Where was that note...?</div>
+              </div>
+            </div>
+            <div class="chaos-footer">Last organized: 3 weeks ago</div>
+          </div>
+        </div>
+        <div class="comparison-after">
+          <img src="/images/conduital-dashboard.png" alt="Conduital — organized, clear, momentum-driven" />
+        </div>
+        <div class="comparison-handle" id="comp-handle">
+          <div class="handle-line"></div>
+          <div class="handle-circle">
+            <span>◀ ▶</span>
+          </div>
+          <div class="handle-line"></div>
+        </div>
+      </div>
     </section>
 
     <!-- Features -->
@@ -402,6 +532,36 @@ import { SITE_TITLE, SITE_DESCRIPTION } from '../consts';
           <p>Notes link to projects. Projects link to goals. Nothing gets
              lost in a folder you forgot about.</p>
         </div>
+      </div>
+    </section>
+
+    <!-- Interactive Momentum Score Demo (WOW1) -->
+    <section class="momentum-demo-section">
+      <h2>Feel the Momentum</h2>
+      <p class="section-subtitle">Click tasks to complete them and watch your momentum build — then see what happens when you stop.</p>
+      <div class="momentum-demo">
+        <div class="demo-header">
+          <div class="demo-project-name">🚀 Launch Marketing Site</div>
+          <div class="demo-score-container">
+            <span class="demo-score-label">Momentum</span>
+            <span class="demo-score" id="demo-score">0</span>
+            <span class="demo-trend" id="demo-trend">—</span>
+          </div>
+        </div>
+        <div class="demo-sparkline">
+          <svg id="sparkline" width="100%" height="60" viewBox="0 0 300 60" preserveAspectRatio="none">
+            <polyline id="spark-line" fill="none" stroke="#2563eb" stroke-width="2" points=""/>
+          </svg>
+        </div>
+        <div class="demo-tasks" id="demo-tasks">
+          <button class="demo-task" data-points="15">✅ Define brand colors</button>
+          <button class="demo-task" data-points="20">✅ Write hero copy</button>
+          <button class="demo-task" data-points="25">✅ Build landing page</button>
+          <button class="demo-task" data-points="15">✅ Set up analytics</button>
+          <button class="demo-task" data-points="30">✅ Launch to Product Hunt</button>
+        </div>
+        <div class="demo-nudge" id="demo-nudge"></div>
+        <button class="demo-reset" id="demo-reset">↻ Reset Demo</button>
       </div>
     </section>
 
@@ -495,6 +655,107 @@ import { SITE_TITLE, SITE_DESCRIPTION } from '../consts';
       document.addEventListener('keydown', (e) => {
         if (e.key === 'Escape') lightbox?.classList.remove('open');
       });
+
+      // === WOW1: Momentum Score Demo ===
+      (function() {
+        let score = 0;
+        let history = [0];
+        const maxHistory = 20;
+        let decayInterval;
+        const DECAY_RATE = 0.92;
+        const DECAY_MS = 800;
+
+        const scoreEl = document.getElementById('demo-score');
+        const trendEl = document.getElementById('demo-trend');
+        const nudgeEl = document.getElementById('demo-nudge');
+        const sparkLine = document.getElementById('spark-line');
+        const resetBtn = document.getElementById('demo-reset');
+        if (!scoreEl || !trendEl || !nudgeEl || !sparkLine || !resetBtn) return;
+
+        function updateDisplay() {
+          const rounded = Math.round(score);
+          scoreEl.textContent = rounded;
+          if (rounded < 30) { scoreEl.style.color = '#ef4444'; trendEl.textContent = '📉'; }
+          else if (rounded < 60) { scoreEl.style.color = '#f59e0b'; trendEl.textContent = '→'; }
+          else { scoreEl.style.color = '#22c55e'; trendEl.textContent = '📈'; }
+
+          if (rounded > 80) nudgeEl.textContent = '🔥 Unstoppable! Ship it!';
+          else if (rounded > 50) nudgeEl.textContent = '⚡ Great momentum — keep going!';
+          else if (rounded > 20 && rounded < 40 && history.length > 5) nudgeEl.textContent = '⏳ Momentum fading... complete a task!';
+          else if (rounded < 10 && history.length > 8) nudgeEl.textContent = '😴 Project stalled. One task can restart momentum.';
+          else nudgeEl.textContent = '';
+
+          history.push(rounded);
+          if (history.length > maxHistory) history.shift();
+          const points = history.map((v, i) => {
+            const x = (i / (maxHistory - 1)) * 300;
+            const y = 55 - (v / 100) * 50;
+            return `${x},${y}`;
+          }).join(' ');
+          sparkLine.setAttribute('points', points);
+        }
+
+        function startDecay() {
+          if (decayInterval) return;
+          decayInterval = setInterval(() => {
+            if (score > 0.5) { score *= DECAY_RATE; updateDisplay(); }
+            else { score = 0; updateDisplay(); }
+          }, DECAY_MS);
+        }
+
+        document.querySelectorAll('.demo-task').forEach(btn => {
+          btn.addEventListener('click', () => {
+            if (btn.classList.contains('completed')) return;
+            btn.classList.add('completed');
+            btn.disabled = true;
+            const points = parseInt(btn.dataset.points) || 15;
+            score = Math.min(100, score + points);
+            updateDisplay();
+            startDecay();
+            if (document.querySelectorAll('.demo-task:not(.completed)').length === 0) {
+              nudgeEl.textContent = '🎉 All tasks complete! Watch momentum sustain...';
+            }
+          });
+        });
+
+        resetBtn.addEventListener('click', () => {
+          score = 0;
+          history = [0];
+          clearInterval(decayInterval);
+          decayInterval = null;
+          document.querySelectorAll('.demo-task').forEach(btn => {
+            btn.classList.remove('completed');
+            btn.disabled = false;
+          });
+          updateDisplay();
+        });
+
+        updateDisplay();
+      })();
+
+      // === WOW2: Before/After Comparison Slider ===
+      (function() {
+        const container = document.getElementById('comparison');
+        const handle = document.getElementById('comp-handle');
+        if (!container || !handle) return;
+        let isDragging = false;
+
+        function setPosition(x) {
+          const rect = container.getBoundingClientRect();
+          let pct = ((x - rect.left) / rect.width) * 100;
+          pct = Math.max(5, Math.min(95, pct));
+          container.style.setProperty('--split', pct + '%');
+        }
+
+        handle.addEventListener('mousedown', () => isDragging = true);
+        handle.addEventListener('touchstart', () => isDragging = true, { passive: true });
+        document.addEventListener('mouseup', () => isDragging = false);
+        document.addEventListener('touchend', () => isDragging = false);
+        document.addEventListener('mousemove', (e) => { if (isDragging) setPosition(e.clientX); });
+        document.addEventListener('touchmove', (e) => { if (isDragging) setPosition(e.touches[0].clientX); }, { passive: true });
+
+        container.style.setProperty('--split', '50%');
+      })();
     </script>
   </body>
 </html>
