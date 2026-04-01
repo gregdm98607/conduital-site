@@ -12,10 +12,6 @@ import { SITE_TITLE, SITE_DESCRIPTION } from '../consts';
     <BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
     <style>
       :root {
-        --brand-primary: #2563eb;
-        --brand-dark: #1e3a5f;
-        --brand-light: #f0f7ff;
-        --brand-accent: #f59e0b;
         --text-primary: #1a1a2e;
         --text-secondary: #64748b;
         --max-width: 1100px;
@@ -106,21 +102,118 @@ import { SITE_TITLE, SITE_DESCRIPTION } from '../consts';
         line-height: 1.6;
       }
 
-      .social-proof {
+      /* Feature icons */
+      .feature-icon {
+        width: 48px;
+        height: 48px;
+        border-radius: 12px;
+        background: rgba(37,99,235,0.1);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.4rem;
+        margin-bottom: 1rem;
+      }
+
+      /* Built-by creator section */
+      .built-by {
         background: #fafafa;
+        padding: 4rem 2rem;
         text-align: center;
-        padding: 3rem 2rem;
       }
 
-      .social-proof blockquote {
-        font-size: 1.15rem;
-        font-style: italic;
+      .built-by h2 {
+        font-size: 2rem;
+        font-weight: 700;
         color: var(--text-primary);
-        max-width: 600px;
-        margin: 0 auto;
-        line-height: 1.7;
+        margin-bottom: 2rem;
       }
 
+      .creator-card {
+        display: flex;
+        align-items: flex-start;
+        gap: 1.5rem;
+        max-width: 650px;
+        margin: 0 auto;
+        text-align: left;
+      }
+
+      .avatar-circle {
+        width: 64px;
+        height: 64px;
+        border-radius: 50%;
+        background: var(--brand-primary);
+        color: white;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 700;
+        font-size: 1.25rem;
+        flex-shrink: 0;
+      }
+
+      .creator-info h3 {
+        font-size: 1.2rem;
+        font-weight: 700;
+        color: var(--text-primary);
+        margin-bottom: 0.5rem;
+      }
+
+      .creator-info p {
+        color: var(--text-secondary);
+        line-height: 1.7;
+        max-width: 600px;
+      }
+
+      /* Email capture form */
+      .hero-alt-cta {
+        margin-top: 1.5rem;
+        margin-bottom: 0;
+        font-size: 0.95rem;
+        opacity: 0.8;
+      }
+
+      .email-capture {
+        display: flex;
+        gap: 0.5rem;
+        justify-content: center;
+        margin-top: 0.75rem;
+        flex-wrap: wrap;
+      }
+
+      .email-capture input[type="email"] {
+        padding: 0.75rem 1rem;
+        border-radius: 8px;
+        border: 2px solid rgba(255,255,255,0.3);
+        background: rgba(255,255,255,0.1);
+        color: white;
+        font-size: 1rem;
+        min-width: 250px;
+        font-family: inherit;
+      }
+
+      .email-capture input::placeholder {
+        color: rgba(255,255,255,0.6);
+      }
+
+      .btn-subscribe {
+        padding: 0.75rem 1.5rem;
+        border-radius: 8px;
+        border: none;
+        background: white;
+        color: var(--brand-primary);
+        font-weight: 600;
+        cursor: pointer;
+        font-family: inherit;
+        font-size: 1rem;
+        transition: background 0.15s ease;
+      }
+
+      .btn-subscribe:hover {
+        background: #f0f0f0;
+      }
+
+      /* Bottom CTA section */
       .cta-section {
         text-align: center;
         padding: 4rem 2rem;
@@ -137,28 +230,73 @@ import { SITE_TITLE, SITE_DESCRIPTION } from '../consts';
         font-size: 1.1rem;
       }
 
+      /* CTA button variant for light backgrounds */
+      .cta-button-primary,
+      .light-bg .cta-button {
+        background: var(--brand-primary);
+        color: white;
+      }
+
+      .cta-button-primary:hover,
+      .light-bg .cta-button:hover {
+        background: #1d4ed8;
+        color: white;
+      }
+
       .screenshots {
         background: #f8fafc;
       }
 
-      .screenshot-grid {
-        display: grid;
-        grid-template-columns: 1fr;
-        gap: 3rem;
+      /* Tabbed screenshots */
+      .screenshot-tabs {
+        display: flex;
+        gap: 1rem;
+        justify-content: center;
+        margin-bottom: 2rem;
+      }
+
+      .tab-btn {
+        padding: 0.6rem 1.5rem;
+        border-radius: 8px;
+        border: 2px solid var(--brand-primary);
+        background: transparent;
+        cursor: pointer;
+        font-weight: 600;
+        font-family: inherit;
+        font-size: 1rem;
+        color: var(--brand-primary);
+        transition: background 0.15s ease, color 0.15s ease;
+      }
+
+      .tab-btn.active {
+        background: var(--brand-primary);
+        color: white;
+      }
+
+      .tab-btn:hover:not(.active) {
+        background: rgba(37,99,235,0.08);
+      }
+
+      .screenshot-content {
+        text-align: center;
       }
 
       .screenshot-item {
-        display: flex;
+        display: none;
         flex-direction: column;
         gap: 1rem;
         align-items: center;
+      }
+
+      .screenshot-item.active {
+        display: flex;
       }
 
       .screenshot-item img {
         width: 100%;
         max-width: 900px;
         border-radius: 12px;
-        box-shadow: 0 4px 24px rgba(0,0,0,0.10);
+        box-shadow: 0 12px 32px rgba(0,0,0,0.15);
         border: 1px solid #e2e8f0;
       }
 
@@ -174,6 +312,39 @@ import { SITE_TITLE, SITE_DESCRIPTION } from '../consts';
         max-width: 600px;
         line-height: 1.6;
       }
+
+      .hero-screenshot {
+        max-width: 900px;
+        width: 100%;
+        margin: 3rem auto 0;
+        border-radius: 12px;
+        box-shadow: 0 24px 48px rgba(0,0,0,0.2);
+        transform: perspective(1200px) rotateX(2deg);
+        display: block;
+      }
+
+      @media (max-width: 768px) {
+        .hero-screenshot {
+          max-width: 100%;
+          margin: 2rem auto 0;
+        }
+      }
+
+      /* Lightbox */
+      .lightbox {
+        position: fixed;
+        inset: 0;
+        background: rgba(0,0,0,0.85);
+        display: none;
+        align-items: center;
+        justify-content: center;
+        z-index: 1000;
+        cursor: zoom-out;
+        padding: 2rem;
+      }
+      .lightbox.open { display: flex; }
+      .lightbox img { max-width: 95vw; max-height: 90vh; border-radius: 8px; object-fit: contain; }
+      .lightbox-close { position: absolute; top: 1rem; right: 1.5rem; background: none; border: none; color: white; font-size: 2rem; cursor: pointer; }
 
       @media (max-width: 640px) {
         .hero h1 { font-size: 2rem; }
@@ -196,6 +367,13 @@ import { SITE_TITLE, SITE_DESCRIPTION } from '../consts';
       <a href="https://conduital.gumroad.com/l/conduital" class="cta-button">
         Get Conduital →
       </a>
+      <!-- TODO: Wire to ConvertKit form action URL -->
+      <p class="hero-alt-cta">Or get notified about updates:</p>
+      <form class="email-capture" action="#" method="POST" data-provider="convertkit">
+        <input type="email" name="email" placeholder="your@email.com" required />
+        <button type="submit" class="btn-subscribe">Get Updates</button>
+      </form>
+      <img src="/images/conduital-dashboard.png" alt="Conduital Dashboard — momentum scoring, intelligent inbox, and connected knowledge in one view" class="hero-screenshot" />
     </section>
 
     <!-- Features -->
@@ -207,16 +385,19 @@ import { SITE_TITLE, SITE_DESCRIPTION } from '../consts';
       </p>
       <div class="features-grid">
         <div class="feature-card">
+          <div class="feature-icon">📊</div>
           <h3>Momentum Dashboard</h3>
           <p>See your active projects, upcoming deadlines, and daily focus
              in one glance — no switching between apps or databases.</p>
         </div>
         <div class="feature-card">
+          <div class="feature-icon">📥</div>
           <h3>Intelligent Inbox</h3>
           <p>Capture ideas, tasks, and references in one place. Conduital
              routes each item to the right project automatically.</p>
         </div>
         <div class="feature-card">
+          <div class="feature-icon">🔗</div>
           <h3>Connected Knowledge</h3>
           <p>Notes link to projects. Projects link to goals. Nothing gets
              lost in a folder you forgot about.</p>
@@ -224,53 +405,96 @@ import { SITE_TITLE, SITE_DESCRIPTION } from '../consts';
       </div>
     </section>
 
-    <!-- Product Screenshots -->
+    <!-- Product Screenshots (Tabbed) -->
     <section class="section screenshots">
       <h2>See It in Action</h2>
       <p class="section-subtitle">
         A real system, not a blank template. Here's what Conduital looks like on day one.
       </p>
-      <div class="screenshot-grid">
-        <div class="screenshot-item">
-          <h3>Momentum Dashboard</h3>
+      <div class="screenshot-tabs">
+        <button class="tab-btn active" data-tab="dashboard">Dashboard</button>
+        <button class="tab-btn" data-tab="projects">Projects</button>
+        <button class="tab-btn" data-tab="review">Weekly Review</button>
+      </div>
+      <div class="screenshot-content">
+        <div class="screenshot-item active" data-panel="dashboard">
           <img src="/images/conduital-dashboard.png" alt="Conduital Dashboard showing active projects, pending tasks, momentum score, and a 90-day activity heatmap" loading="lazy" />
+          <h3>Momentum Dashboard</h3>
           <p>Your command center. See active projects, pending tasks, momentum score, and a 90-day activity heatmap — all at a glance.</p>
         </div>
-        <div class="screenshot-item">
-          <h3>Project Tracker</h3>
+        <div class="screenshot-item" data-panel="projects">
           <img src="/images/conduital-projects.png" alt="Conduital Projects view with card-based project tracking, momentum bars, and status filters" loading="lazy" />
+          <h3>Project Tracker</h3>
           <p>Every project shows its priority, momentum, progress, and last activity. Filter by status, sort by what matters.</p>
         </div>
-        <div class="screenshot-item">
-          <h3>Weekly Review</h3>
+        <div class="screenshot-item" data-panel="review">
           <img src="/images/conduital-weekly-review.png" alt="Conduital Weekly Review checklist with AI co-pilot, inbox clearing, and project review steps" loading="lazy" />
+          <h3>Weekly Review</h3>
           <p>A guided weekly review with an AI co-pilot. Clear your inbox, review every project, and make sure nothing slips.</p>
         </div>
       </div>
     </section>
 
-    <!-- Social Proof -->
-    <section class="social-proof">
-      <blockquote>
-        "I've tried a dozen Notion templates. Conduital is the first one
-         that actually got better the longer I used it — instead of becoming
-         another thing I had to maintain."
-      </blockquote>
-      <p style="color: var(--text-secondary); margin-top: 1rem;">
-        — Early beta user
-      </p>
+    <!-- Built by -->
+    <section class="built-by">
+      <h2>Built by a Knowledge Worker, for Knowledge Workers</h2>
+      <div class="creator-card">
+        <div class="creator-avatar">
+          <div class="avatar-circle">GM</div>
+        </div>
+        <div class="creator-info">
+          <h3>Greg Maxfield</h3>
+          <p>Creator of Conduital. I built this because I was drowning in productivity tools that didn't talk to each other. Conduital is the system I wished existed — one place where your projects, tasks, and knowledge actually work together.</p>
+        </div>
+      </div>
     </section>
 
     <!-- Bottom CTA -->
-    <section class="cta-section">
+    <section class="cta-section light-bg">
       <h2>Ready to Build a System That Works?</h2>
       <p>One template. One purchase. A lifetime of clarity.</p>
-      <a href="https://conduital.gumroad.com/l/conduital" class="cta-button">
+      <a href="https://conduital.gumroad.com/l/conduital" class="cta-button cta-button-primary">
         Get Conduital →
       </a>
     </section>
 
     <Footer />
     <Analytics />
+
+    <!-- Lightbox overlay -->
+    <div id="lightbox" class="lightbox" role="dialog" aria-label="Image preview">
+      <img src="" alt="" />
+      <button class="lightbox-close" aria-label="Close">&times;</button>
+    </div>
+
+    <script>
+      // Tab switching for screenshots
+      document.querySelectorAll('.tab-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+          document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+          document.querySelectorAll('.screenshot-item').forEach(p => p.classList.remove('active'));
+          btn.classList.add('active');
+          const panel = document.querySelector(`[data-panel="${btn.dataset.tab}"]`);
+          if (panel) panel.classList.add('active');
+        });
+      });
+
+      // Lightbox
+      const lightbox = document.getElementById('lightbox');
+      const lightboxImg = lightbox?.querySelector('img');
+      document.querySelectorAll('.screenshot-item img, .hero-screenshot').forEach(img => {
+        img.style.cursor = 'zoom-in';
+        img.addEventListener('click', () => {
+          if (lightboxImg) { lightboxImg.src = img.src; lightboxImg.alt = img.alt; }
+          lightbox?.classList.add('open');
+        });
+      });
+      lightbox?.addEventListener('click', (e) => {
+        if (e.target !== lightboxImg) lightbox.classList.remove('open');
+      });
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') lightbox?.classList.remove('open');
+      });
+    </script>
   </body>
 </html>

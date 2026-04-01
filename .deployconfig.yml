@@ -1,0 +1,23 @@
+repo_name: conduital-site
+display_name: "CDM (conduital.com)"
+deploy_target: vercel
+auto_release: true
+content_dirs:
+  - src/content/
+  - public/images/
+  - public/downloads/
+sensitive_files:
+  - .env
+  - .env.local
+  - .env.production
+  - astro.config.mjs
+style_dirs:
+  - src/styles/
+config_files:
+  - package.json
+  - tsconfig.json
+build_command: npm run build
+staging_branch: preview
+production_branch: main
+weekend_deploys: false
+check_frequency: daily

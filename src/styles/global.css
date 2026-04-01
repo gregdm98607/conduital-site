@@ -5,8 +5,12 @@
  */
 
 :root {
-	--accent: #2337ff;
+	--accent: #2563eb;
 	--accent-dark: #000d8a;
+	--brand-primary: #2563eb;
+	--brand-dark: #1e3a5f;
+	--brand-accent: #f59e0b;
+	--brand-light: #f0f7ff;
 	--black: 15, 18, 25;
 	--gray: 96, 115, 159;
 	--gray-light: 229, 233, 240;
@@ -16,22 +20,8 @@
 		0 2px 6px rgba(var(--gray), 25%), 0 8px 24px rgba(var(--gray), 33%),
 		0 16px 32px rgba(var(--gray), 33%);
 }
-@font-face {
-	font-family: "Atkinson";
-	src: url("/fonts/atkinson-regular.woff") format("woff");
-	font-weight: 400;
-	font-style: normal;
-	font-display: swap;
-}
-@font-face {
-	font-family: "Atkinson";
-	src: url("/fonts/atkinson-bold.woff") format("woff");
-	font-weight: 700;
-	font-style: normal;
-	font-display: swap;
-}
 body {
-	font-family: "Atkinson", sans-serif;
+	font-family: 'Inter', system-ui, -apple-system, sans-serif;
 	margin: 0;
 	padding: 0;
 	text-align: left;

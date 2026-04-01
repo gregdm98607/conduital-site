@@ -1,0 +1,5 @@
+# Auto-release marker for Unified Auto Deploy Pipeline
+# Presence of this file opts this repo into Lane 1 (auto-deploy) for content-only changes.
+# Remove this file to disable auto-deploy and require manual review for all changes.
+# Created: 2026-03-31
+enabled: true

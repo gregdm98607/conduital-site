@@ -1,0 +1,9 @@
+# Sensitive files — any change to these triggers Lane 3 (full human review)
+# One file pattern per line. Supports glob patterns.
+.env
+.env.*
+astro.config.mjs
+src/lib/stripe.*
+src/pages/api/**
+vercel.json
+netlify.toml
