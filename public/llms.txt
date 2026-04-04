@@ -1,0 +1,24 @@
+# Conduital
+
+> Productivity software that helps knowledge workers organize projects, track tasks, and maintain focus through structured daily and weekly workflows.
+
+Conduital is a Notion-based personal productivity system built for knowledge workers who juggle multiple projects. It provides structured workflows for daily planning, weekly reviews, and project management without the overhead of enterprise tools. Unlike static templates that require constant manual maintenance, Conduital is designed to surface relevant work, track momentum, and connect tasks, notes, and projects into one coherent system.
+
+## Product
+
+- [Home](https://conduital.com/) — Overview of Conduital's features: Momentum Dashboard, Intelligent Inbox, Connected Knowledge, and the Weekly Review system. Includes interactive demo and product screenshots.
+- [Get Conduital](https://conduital.gumroad.com/l/conduital) — Purchase page for the Conduital Notion template.
+
+## Blog
+
+- [Intelligent Productivity: Beyond To-Do Lists and Second Brains](https://conduital.com/blog/intelligent-productivity-beyond-todo-lists/) — Explores the four generations of productivity tools and argues that the next generation must reduce cognitive load through pattern recognition, relevance filtering, and self-maintenance — not just more features.
+- [Why Most Notion Templates Fail (And What to Do Instead)](https://conduital.com/blog/why-most-notion-templates-fail/) — Explains why most Notion templates are abandoned within two weeks: they are static containers that scale maintenance costs with complexity. Describes what makes a productivity system intelligent and durable.
+
+## About
+
+- [About Conduital](https://conduital.com/about/) — The story behind Conduital, written by creator Greg Maxfield. Explains the frustration with maintenance-heavy productivity tools that inspired the product.
+
+## Optional
+
+- [Blog Index](https://conduital.com/blog/) — Full list of articles on productivity systems, knowledge work, and intelligent workflows.
+- [RSS Feed](https://conduital.com/rss.xml) — Subscribe to Conduital blog posts.
