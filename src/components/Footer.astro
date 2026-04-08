@@ -30,6 +30,7 @@ const today = new Date();
 				<input type="email" name="email" placeholder="your@email.com" required />
 				<button type="submit">Subscribe</button>
 			</form>
+			<p class="footer-contact"><a href="mailto:greg@conduital.com">greg@conduital.com</a></p>
 			<div class="footer-social">
 				<a href="#" aria-label="Twitter/X" class="social-link">
 					<svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
@@ -122,6 +123,18 @@ const today = new Date();
 		cursor: pointer;
 		font-size: 0.85rem;
 		font-family: inherit;
+	}
+	.footer-contact {
+		font-size: 0.85rem;
+		margin-bottom: 0.75rem;
+	}
+	.footer-contact a {
+		color: rgba(255,255,255,0.85);
+		text-decoration: none;
+	}
+	.footer-contact a:hover {
+		color: white;
+		text-decoration: underline;
 	}
 	.footer-social {
 		display: flex;
