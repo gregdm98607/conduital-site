@@ -22,3 +22,11 @@ pnpm-debug.log*
 
 # jetbrains setting folder
 .idea/
+
+# Claude planning files
+task_plan.md
+findings.md
+progress.md
+next-prompt.md
+
+.vercel
