@@ -10,6 +10,25 @@ import { SITE_TITLE, SITE_DESCRIPTION } from '../consts';
 <html lang="en">
   <head>
     <BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
+    <script type="application/ld+json" set:html={JSON.stringify({
+      "@context": "https://schema.org",
+      "@type": "SoftwareApplication",
+      "name": "Conduital",
+      "applicationCategory": "ProductivityApplication",
+      "operatingSystem": "Web, iOS, Android",
+      "description": SITE_DESCRIPTION,
+      "url": "https://conduital.com",
+      "publisher": {
+        "@type": "Organization",
+        "name": "Silver Sage Software",
+        "url": "https://silversagesoftware.com"
+      },
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+      }
+    })} />
     <style>
       :root {
         --text-primary: #1a1a2e;

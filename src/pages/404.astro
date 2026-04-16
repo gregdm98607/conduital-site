@@ -1,0 +1,88 @@
+---
+import BaseHead from '../components/BaseHead.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import { SITE_TITLE } from '../consts';
+---
+
+<!doctype html>
+<html lang="en">
+	<head>
+		<BaseHead
+			title={`Page Not Found · ${SITE_TITLE}`}
+			description="The page you were looking for couldn't be found. Head back to the homepage or browse the blog."
+		/>
+		<style>
+			.not-found {
+				min-height: 60vh;
+				display: flex;
+				flex-direction: column;
+				align-items: center;
+				justify-content: center;
+				padding: 4rem 2rem;
+				text-align: center;
+			}
+			.not-found .code {
+				font-size: 5rem;
+				font-weight: 800;
+				color: var(--brand-primary, #2563eb);
+				margin: 0 0 0.5rem;
+				line-height: 1;
+			}
+			.not-found h1 {
+				font-size: 1.75rem;
+				margin: 0 0 1rem;
+				color: var(--brand-dark, #1e3a5f);
+			}
+			.not-found p {
+				max-width: 520px;
+				color: rgb(var(--gray, 100 100 100));
+				margin-bottom: 2rem;
+				line-height: 1.6;
+			}
+			.not-found .actions {
+				display: flex;
+				gap: 0.75rem;
+				flex-wrap: wrap;
+				justify-content: center;
+			}
+			.not-found a {
+				display: inline-block;
+				padding: 0.75rem 1.5rem;
+				border-radius: 8px;
+				font-weight: 600;
+				text-decoration: none;
+				transition: transform 0.15s ease, box-shadow 0.15s ease;
+			}
+			.not-found .primary {
+				background: var(--brand-primary, #2563eb);
+				color: white;
+			}
+			.not-found .secondary {
+				background: transparent;
+				color: var(--brand-primary, #2563eb);
+				border: 1px solid var(--brand-primary, #2563eb);
+			}
+			.not-found a:hover {
+				transform: translateY(-1px);
+				box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+			}
+		</style>
+	</head>
+	<body>
+		<Header />
+		<main class="not-found">
+			<div class="code">404</div>
+			<h1>Page not found</h1>
+			<p>
+				The page you were looking for doesn't exist here. It may have moved,
+				or the link that brought you here may have a typo. Try one of the options below.
+			</p>
+			<div class="actions">
+				<a class="primary" href="/">Back to Home</a>
+				<a class="secondary" href="/blog">Browse the Blog</a>
+			</div>
+		</main>
+		<Footer />
+	</body>
+</html>
