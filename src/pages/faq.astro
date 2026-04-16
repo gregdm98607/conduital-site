@@ -1,0 +1,134 @@
+---
+import Layout from '../layouts/Page.astro';
+---
+
+<Layout
+	title="Frequently Asked Questions"
+	description="Common questions about Conduital — pricing, data privacy, AI features, system requirements, and more."
+>
+	<div class="faq-list">
+		<div class="faq-item">
+			<h2>Is this a subscription?</h2>
+			<p>
+				No. Conduital is a one-time purchase. You buy it, you own it. No
+				recurring fees, no "your trial is expiring" emails. Future updates
+				within your major version are included.
+			</p>
+		</div>
+
+		<div class="faq-item">
+			<h2>Is my data stored in the cloud?</h2>
+			<p>
+				No. Conduital is local-first. Your projects, tasks, and notes live
+				as markdown files on your computer. You can sync them however you
+				like — Dropbox, iCloud, Git — but Conduital never uploads your data
+				to our servers.
+			</p>
+		</div>
+
+		<div class="faq-item">
+			<h2>How does the AI work?</h2>
+			<p>
+				Conduital connects to OpenAI-compatible APIs using your own API key.
+				The AI features help you break through blocks, generate next actions,
+				and make decisions — but they're entirely optional. The core
+				productivity system works fully offline without any AI connection.
+			</p>
+		</div>
+
+		<div class="faq-item">
+			<h2>Is there a free version?</h2>
+			<p>
+				Yes. The free tier includes the core dashboard, inbox, and project
+				management features. Paid tiers unlock GTD workflows, advanced AI
+				assistance, and the full Horizons of Focus system.
+			</p>
+		</div>
+
+		<div class="faq-item">
+			<h2>What are the system requirements?</h2>
+			<p>
+				Windows 10 or later. No internet connection required for core features.
+				AI features need a network connection and an OpenAI-compatible API key.
+				A Mac version is planned for Q3 2026.
+			</p>
+		</div>
+
+		<div class="faq-item">
+			<h2>Can I use my own AI provider?</h2>
+			<p>
+				Yes. Conduital works with any OpenAI-compatible API — including
+				local models via Ollama or LM Studio. You're not locked into any
+				single provider.
+			</p>
+		</div>
+
+		<div class="faq-item">
+			<h2>What happens to my data if I stop using Conduital?</h2>
+			<p>
+				Nothing changes. Your data is standard markdown files that you own.
+				Open them in any text editor, Obsidian, VS Code, or any other
+				markdown-compatible tool. There's no proprietary format and no
+				export step needed.
+			</p>
+		</div>
+
+		<div class="faq-item">
+			<h2>What if I need help?</h2>
+			<p>
+				Email <a href="mailto:greg@conduital.com">greg@conduital.com</a>.
+				You'll hear back from a human, not a bot.
+			</p>
+		</div>
+	</div>
+
+	<p style="margin-top:3rem;text-align:center">
+		<a
+			href="https://conduital.gumroad.com/l/conduital"
+			class="faq-cta"
+		>
+			Get Conduital →
+		</a>
+	</p>
+</Layout>
+
+<style>
+	.faq-list {
+		display: flex;
+		flex-direction: column;
+		gap: 0.5rem;
+	}
+	.faq-item {
+		border-bottom: 1px solid rgba(var(--gray-light), 0.5);
+		padding-bottom: 1.5rem;
+	}
+	.faq-item:last-child {
+		border-bottom: none;
+	}
+	.faq-item h2 {
+		font-size: 1.15rem;
+		margin-bottom: 0.5rem;
+		color: rgb(var(--black));
+	}
+	.faq-item p {
+		color: rgb(var(--gray-dark));
+		line-height: 1.7;
+		margin: 0;
+	}
+	.faq-item a {
+		color: var(--brand-primary, #2563eb);
+	}
+	.faq-cta {
+		display: inline-block;
+		background: #f59e0b;
+		color: #1e3a5f;
+		font-weight: 700;
+		font-size: 1.1rem;
+		padding: 0.9rem 2.2rem;
+		border-radius: 8px;
+		text-decoration: none;
+	}
+	.faq-cta:hover {
+		background: #d97706;
+	}
+</style>
