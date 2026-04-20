@@ -30,3 +30,6 @@ progress.md
 next-prompt.md
 
 .vercel
+
+# Claude Code worktrees (transient local artifacts)
+.claude/worktrees/
