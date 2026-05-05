@@ -1,0 +1,14 @@
+{
+  "redirects": [
+    {
+      "source": "/download/v1.3.0",
+      "destination": "/downloads/ConduitalSetup-1.3.0.exe",
+      "permanent": false
+    },
+    {
+      "source": "/download/latest",
+      "destination": "/downloads/ConduitalSetup-1.3.0.exe",
+      "permanent": false
+    }
+  ]
+}
