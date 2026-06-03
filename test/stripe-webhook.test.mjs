@@ -22,7 +22,37 @@ import {
   sendFulfillmentEmail,
   handleCheckoutCompleted,
   readEnv,
+  POST,
 } from '../api/stripe-webhook.js';
+
+// Save/restore an env var around a test body (POST reads process.env live via readEnv).
+async function withEnv(vars, fn) {
+  const prev = {};
+  for (const [k, v] of Object.entries(vars)) {
+    prev[k] = process.env[k];
+    if (v === undefined) delete process.env[k];
+    else process.env[k] = v;
+  }
+  try {
+    await fn();
+  } finally {
+    for (const [k, v] of Object.entries(prev)) {
+      if (v === undefined) delete process.env[k];
+      else process.env[k] = v;
+    }
+  }
+}
+
+function signedRequest(secret, payloadObj) {
+  const body = JSON.stringify(payloadObj);
+  const ts = Math.floor(Date.now() / 1000);
+  const v1 = crypto.createHmac('sha256', secret).update(`${ts}.` + body, 'utf8').digest('hex');
+  return new Request('https://x/api/stripe-webhook', {
+    method: 'POST',
+    headers: { 'content-type': 'application/json', 'stripe-signature': `t=${ts},v1=${v1}` },
+    body,
+  });
+}
 
 const SECRET = 'whsec_test_secret';
 
@@ -218,4 +248,73 @@ test('readEnv: applies stable defaults when unset', () => {
   assert.equal(env.from, 'Conduital <licenses@conduital.com>');
   assert.equal(env.webhookSecret, '');
   assert.equal(env.resendApiKey, '');
+});
+
+// --- POST handler: fail-closed security ---
+
+test('POST: FAIL-CLOSED — no secret set ⇒ refuses to fulfill, sends nothing (even with RESEND key)', async () => {
+  await withEnv({ STRIPE_WEBHOOK_SECRET: undefined, RESEND_API_KEY: 're_should_NOT_be_used' }, async () => {
+    const body = JSON.stringify({
+      type: 'checkout.session.completed',
+      data: { object: { customer_details: { email: 'buyer@x.com' }, metadata: { conduital_tier: 'gtd' } } },
+    });
+    const req = new Request('https://x/api/stripe-webhook', {
+      method: 'POST',
+      headers: { 'content-type': 'application/json' },
+      body,
+    });
+    const res = await POST(req);
+    assert.equal(res.status, 200);
+    assert.deepEqual(await res.json(), { status: 'unconfigured' });
+    // The security property: with no signing secret, nothing is fulfilled — the
+    // response is 'unconfigured', never 'fulfilled', so no key is ever emailed.
+  });
+});
+
+test('POST: missing signature header when secret set ⇒ 400', async () => {
+  await withEnv({ STRIPE_WEBHOOK_SECRET: 'whsec_test' }, async () => {
+    const req = new Request('https://x/api/stripe-webhook', {
+      method: 'POST',
+      headers: { 'content-type': 'application/json' },
+      body: '{}',
+    });
+    const res = await POST(req);
+    assert.equal(res.status, 400);
+  });
+});
+
+test('POST: bad signature when secret set ⇒ 400', async () => {
+  await withEnv({ STRIPE_WEBHOOK_SECRET: 'whsec_test' }, async () => {
+    const req = new Request('https://x/api/stripe-webhook', {
+      method: 'POST',
+      headers: { 'content-type': 'application/json', 'stripe-signature': 't=1,v1=deadbeef' },
+      body: '{"type":"checkout.session.completed"}',
+    });
+    const res = await POST(req);
+    assert.equal(res.status, 400);
+  });
+});
+
+test('POST: valid signature ⇒ fulfilled (email skipped without RESEND key, no network)', async () => {
+  await withEnv({ STRIPE_WEBHOOK_SECRET: 'whsec_test', RESEND_API_KEY: undefined }, async () => {
+    const req = signedRequest('whsec_test', {
+      type: 'checkout.session.completed',
+      data: { object: { customer_details: { email: 'buyer@x.com' }, metadata: { conduital_tier: 'gtd' } } },
+    });
+    const res = await POST(req);
+    assert.equal(res.status, 200);
+    const j = await res.json();
+    assert.equal(j.status, 'fulfilled');
+    assert.equal(j.tier, 'gtd');
+    assert.equal(j.email_sent, 'false'); // no RESEND key ⇒ sendFulfillmentEmail short-circuits, no fetch
+  });
+});
+
+test('POST: non-checkout event ignored (200) when secret set', async () => {
+  await withEnv({ STRIPE_WEBHOOK_SECRET: 'whsec_test' }, async () => {
+    const req = signedRequest('whsec_test', { type: 'payment_intent.succeeded' });
+    const res = await POST(req);
+    assert.equal(res.status, 200);
+    assert.equal((await res.json()).status, 'ignored');
+  });
 });

@@ -280,18 +280,26 @@ export async function POST(request) {
   const env = readEnv();
   const sig = request.headers.get('stripe-signature');
 
-  // --- Signature verification ---
-  if (env.webhookSecret) {
-    if (!sig) {
-      console.warn('Stripe webhook received with no signature header');
-      return json(400, { error: 'Missing stripe-signature header' });
-    }
-    if (!verifyStripeSignature(rawBody, sig, env.webhookSecret)) {
-      console.warn('Stripe webhook signature verification failed');
-      return json(400, { error: 'Webhook signature verification failed' });
-    }
-  } else {
-    console.warn('STRIPE_WEBHOOK_SECRET not configured — processing webhook WITHOUT verification (set it before production)');
+  // --- Signature verification (FAIL-CLOSED) ---
+  // This endpoint is public, so it must NEVER fulfill an unverified event. If the
+  // signing secret is not configured we refuse to fulfill — acking with 200 so Stripe
+  // does not retry-storm, but generating/emailing nothing. (This differs from the
+  // localhost-only dev handler in backend/app/api/webhooks.py, which has no public
+  // exposure and is allowed to process without a secret.)
+  if (!env.webhookSecret) {
+    console.error(
+      'STRIPE_WEBHOOK_SECRET not configured — refusing to fulfill. ' +
+        'Set it in Vercel → Project Settings → Environment Variables, then redeploy.',
+    );
+    return json(200, { status: 'unconfigured' });
+  }
+  if (!sig) {
+    console.warn('Stripe webhook received with no signature header');
+    return json(400, { error: 'Missing stripe-signature header' });
+  }
+  if (!verifyStripeSignature(rawBody, sig, env.webhookSecret)) {
+    console.warn('Stripe webhook signature verification failed');
+    return json(400, { error: 'Webhook signature verification failed' });
   }
 
   // --- Parse event ---
