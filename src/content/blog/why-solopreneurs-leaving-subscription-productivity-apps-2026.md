@@ -52,8 +52,8 @@ You don't have to rebuild your whole system in a weekend. A practical sequence:
 
 We built Conduital for exactly this shift. It's a desktop task and project system built on GTD methodology, syncing bidirectionally with plain markdown files you own. It works offline by design, and it's a one-time purchase — a free tier, a $49 GTD module, and a $79 full suite, with no monthly meter.
 
-It also closes the "surfacing" gap that pure plain-text setups leave open: Conduital scores each project's [momentum](/features) so the work that's stalling rises to your attention instead of hiding in a folder.
+It also closes the "surfacing" gap that pure plain-text setups leave open: Conduital scores each project's [momentum](/#momentum) so the work that's stalling rises to your attention instead of hiding in a folder.
 
-If you're interested in what intelligent, ownership-first productivity looks like in practice, start with our post on [what makes productivity tools genuinely intelligent](/blog/intelligent-productivity-beyond-todo-lists) — and if you're evaluating whether Conduital fits where you are now, [the pricing page](/pricing) has the full breakdown with no hidden tiers.
+If you're interested in what intelligent, ownership-first productivity looks like in practice, start with our post on [what makes productivity tools genuinely intelligent](/blog/intelligent-productivity-beyond-todo-lists) — and if you're ready to try Conduital, visit the [Windows download page](/download).
 
 The subscription model isn't going away. But for the tools that don't earn it, 2026 is the year a lot of solopreneurs stopped paying.

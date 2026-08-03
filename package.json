@@ -7,10 +7,14 @@
   },
   "scripts": {
     "dev": "astro dev",
+    "prebuild": "npm run verify:release",
     "build": "astro build",
     "preview": "astro preview",
     "astro": "astro",
-    "test": "node --test test/"
+    "test": "node --test test/stripe-webhook.test.mjs",
+    "release:manifest": "node scripts/release-manifest.mjs --write",
+    "verify:release": "node scripts/release-manifest.mjs --check",
+    "check:links": "node scripts/check-internal-links.mjs"
   },
   "dependencies": {
     "@astrojs/mdx": "^5.0.3",

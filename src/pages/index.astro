@@ -470,28 +470,6 @@ import { SITE_TITLE, SITE_DESCRIPTION } from '../consts';
         .chaos-mock { font-size: 0.55rem; }
       }
 
-      /* === Product Hunt Launch Banner === */
-      .ph-launch-banner {
-        background: #ff6154;
-        color: white;
-        text-align: center;
-        padding: 0.6rem 1rem;
-        font-size: 0.95rem;
-        font-weight: 600;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        gap: 0.5rem;
-        flex-wrap: wrap;
-      }
-      .ph-launch-banner a {
-        color: white;
-        text-decoration: underline;
-        text-underline-offset: 2px;
-        white-space: nowrap;
-      }
-      .ph-launch-banner a:hover { opacity: 0.85; }
-
       /* === PH Badge in hero === */
       .ph-badge-wrap {
         margin-top: 1.5rem;
@@ -525,11 +503,6 @@ import { SITE_TITLE, SITE_DESCRIPTION } from '../consts';
     </style>
   </head>
   <body>
-    <!-- Product Hunt Launch Announcement Bar -->
-    <div class="ph-launch-banner">
-      🎉 We're live on Product Hunt today! &nbsp;<a href="https://www.producthunt.com/posts/conduital-gtd-meets-momentum-scoring" target="_blank" rel="noopener">Support our launch →</a>
-    </div>
-
     <Header />
 
     <!-- Hero -->
@@ -610,7 +583,7 @@ import { SITE_TITLE, SITE_DESCRIPTION } from '../consts';
     </section>
 
     <!-- Features -->
-    <section class="section">
+    <section class="section" id="features">
       <h2>Built for How You Actually Work</h2>
       <p class="section-subtitle">
         Most productivity tools give you an empty page and wish you luck.
@@ -639,7 +612,7 @@ import { SITE_TITLE, SITE_DESCRIPTION } from '../consts';
     </section>
 
     <!-- Interactive Momentum Score Demo (WOW1) -->
-    <section class="momentum-demo-section">
+    <section class="momentum-demo-section" id="momentum">
       <h2>Feel the Momentum</h2>
       <p class="section-subtitle">Click tasks to complete them and watch your momentum build — then see what happens when you stop.</p>
       <div class="momentum-demo">

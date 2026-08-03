@@ -1,78 +1,60 @@
-# Astro Starter Kit: Blog
+# Conduital marketing site
+
+The public Conduital site is an [Astro](https://astro.build/) project deployed on Vercel. It serves the marketing pages, blog, Windows installer, Kit/ConvertKit signup proxy, and stateless Stripe-to-Resend fulfillment webhook.
+
+## Requirements
+
+- Node.js 22.12 or newer
+- npm
+
+Install dependencies and start the local site:
 
 ```sh
-npm create astro@latest -- --template blog
+npm ci
+npm run dev
 ```
 
-> 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
+## Commands
 
-Features:
+| Command | Purpose |
+| --- | --- |
+| `npm run dev` | Start Astro locally at `http://localhost:4321`. |
+| `npm test` | Run the Stripe webhook tests with Node's portable explicit test-file path. |
+| `npm run verify:release` | Recompute installer metadata and confirm the committed manifest and redirects match. |
+| `npm run release:manifest` | Regenerate the release manifest from the installer selected by `/download/latest`. |
+| `npm run build` | Verify release metadata and build the production site into `dist/`. |
+| `npm run check:links` | Validate internal routes and fragments in the built site. Run after a build. |
+| `npm run preview` | Preview the production build locally. |
 
-- ✅ Minimal styling (make it your own!)
-- ✅ 100/100 Lighthouse performance
-- ✅ SEO-friendly with canonical URLs and Open Graph data
-- ✅ Sitemap support
-- ✅ RSS Feed support
-- ✅ Markdown & MDX support
+CI runs the webhook tests, production build, release verification (through `prebuild`), and the post-build internal-link check on pushes and pull requests targeting `main`.
 
-## 🚀 Project Structure
+## Architecture
 
-Inside of your Astro project, you'll see the following folders and files:
+- `src/pages/` contains Astro routes.
+- `src/content/blog/` contains blog posts.
+- `src/data/release-manifest.json` is generated release metadata rendered by the Download page.
+- `public/downloads/` contains the installer selected by Vercel redirects.
+- `api/subscribe.js` proxies email signup to Kit/ConvertKit while keeping its secret server-side.
+- `api/stripe-webhook.js` verifies Stripe signatures and sends fulfillment email through Resend. It is stateless; the site has no license database.
+- `vercel.json` owns `/download/latest` and versioned installer redirects.
 
-```text
-├── public/
-├── src/
-│   ├── components/
-│   ├── content/
-│   ├── layouts/
-│   └── pages/
-├── astro.config.mjs
-├── README.md
-├── package.json
-└── tsconfig.json
-```
+## Installer release integrity
 
-Astro looks for `.astro` or `.md` files in the `src/pages/` directory. Each page is exposed as a route based on its file name.
+The `/download/latest` redirect is the release selector. `scripts/release-metadata.mjs` resolves that redirect, derives the semantic version from the installer filename, and calculates byte size, decimal MB, and SHA-256 from the tracked executable. The generated manifest is committed so an unexpected artifact or redirect change fails `npm run build`.
 
-There's nothing special about `src/components/`, but that's where we like to put any Astro/React/Vue/Svelte/Preact components.
+For a new Windows release:
 
-The `src/content/` directory contains "collections" of related Markdown and MDX documents. Use `getCollection()` to retrieve posts from `src/content/blog/`, and type-check your frontmatter using an optional schema. See [Astro's Content Collections docs](https://docs.astro.build/en/guides/content-collections/) to learn more.
+1. Add the installer to `public/downloads/` using `ConduitalSetup-x.y.z.exe`.
+2. Point `/download/latest` and `/download/vx.y.z` in `vercel.json` to that same file.
+3. Run `npm run release:manifest` and review the manifest diff.
+4. Run `npm test`, `npm run build`, and `npm run check:links` before requesting deployment.
 
-Any static assets, like images, can be placed in the `public/` directory.
+## Environment and fulfillment
 
-## 🧞 Commands
+Copy `.env.example` to `.env` or `.env.local` for local Vercel development; never commit real values. `STRIPE_WEBHOOK_SECRET` is required for fulfillment. If it is missing, the webhook fails closed without generating a key or sending email. `RESEND_API_KEY` is required to deliver the fulfillment email. See `.env.example` for the complete variable list.
 
-All commands are run from the root of the project, from a terminal:
+Production environment changes, deployment, DNS, Stripe, Resend, Kit, and credential rotation are operational actions and should be reviewed explicitly before execution. The detailed fulfillment runbook lives in the Conduital application repository at `conduital/docs/MON-013-fulfillment-runbook.md`.
 
-| Command                   | Action                                           |
-| :------------------------ | :----------------------------------------------- |
-| `npm install`             | Installs dependencies                            |
-| `npm run dev`             | Starts local dev server at `localhost:4321`      |
-| `npm run build`           | Build your production site to `./dist/`          |
-| `npm run preview`         | Preview your build locally, before deploying     |
-| `npm run astro ...`       | Run CLI commands like `astro add`, `astro check` |
-| `npm run astro -- --help` | Get help using the Astro CLI                     |
-| `npm test`                | Run unit tests for the serverless function(s)    |
+## Attribution
 
-## 👀 Want to learn more?
-
-Check out [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).
-
-## 💳 Fulfillment function (Stripe → Resend)
-
-Beside the static site, Vercel auto-deploys serverless functions from the `api/`
-directory. `api/stripe-webhook.js` handles Conduital purchase fulfillment
-(MON-013): it verifies the Stripe webhook signature, generates a license key, and
-emails it to the buyer via Resend. It is **stateless** — the desktop app activates
-Stripe keys offline, so no database is involved.
-
-- **Endpoint:** `POST https://conduital.com/api/stripe-webhook`
-- **Env vars:** see [`.env.example`](.env.example) (set them in Vercel → Project
-  Settings → Environment Variables; for local testing copy to `.env` and use `vercel dev`).
-- **Tests:** `npm test` (zero deps; pure helpers + stubbed `fetch`).
-- **Deploy/DNS/Stripe/Resend setup:** see the runbook in the app repo,
-  `conduital/docs/MON-013-fulfillment-runbook.md`.
-
-## Credit
-
-This theme is based off of the lovely [Bear Blog](https://github.com/HermanMartinus/bearblog/).
+The original Astro theme is based on [Bear Blog](https://github.com/HermanMartinus/bearblog/).
