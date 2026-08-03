@@ -1,0 +1,253 @@
+---
+import Layout from '../layouts/Page.astro';
+
+const securityEmail = 'greg@conduital.com';
+const securityMailto = `mailto:${securityEmail}?subject=Conduital%20security%20report`;
+---
+
+<Layout
+	title="Security and Vulnerability Disclosure"
+	description="How to report a security vulnerability affecting Conduital, including scope, safe-testing boundaries, and disclosure expectations."
+>
+	<div class="security-brief">
+		<p class="policy-kicker"><span aria-hidden="true"></span> Coordinated disclosure</p>
+		<p class="policy-intro">
+			We welcome clear, good-faith reports that help us protect Conduital and
+			its users. This policy explains what you may test, what is off-limits,
+			and how to send us a useful report.
+		</p>
+		<dl class="brief-facts">
+			<div>
+				<dt>Report</dt>
+				<dd><a href={securityMailto}>{securityEmail}</a></dd>
+			</div>
+			<div>
+				<dt>Acknowledgment target</dt>
+				<dd>7 calendar days</dd>
+			</div>
+			<div>
+				<dt>Disclosure window</dt>
+				<dd>Up to 90 days</dd>
+			</div>
+		</dl>
+	</div>
+
+	<h2 id="report">Report a vulnerability</h2>
+	<p>
+		Email <a href={securityMailto}>{securityEmail}</a> with the subject
+		<strong>Conduital security report</strong>. Please include:
+	</p>
+	<ul>
+		<li>The affected URL, endpoint, application version, or installer version.</li>
+		<li>A concise description of the issue and its likely security impact.</li>
+		<li>Reproduction steps using the smallest safe proof of concept possible.</li>
+		<li>Any relevant request and response details, screenshots, or logs with secrets and personal data removed.</li>
+		<li>Your preferred contact information and any planned disclosure date.</li>
+	</ul>
+	<p>
+		Do not include credentials, license keys, personal data, or other sensitive
+		material unless it is strictly necessary to explain the issue. Ask first
+		if you believe encrypted delivery is necessary; no public encryption key
+		is currently advertised.
+	</p>
+
+	<h2 id="scope">Scope</h2>
+	<p>The following Conduital-controlled surfaces are in scope:</p>
+	<ul>
+		<li><code>conduital.com</code> and its public web endpoints.</li>
+		<li>The current public Conduital Windows application and installer artifacts distributed directly by Conduital.</li>
+	</ul>
+	<p>The following are out of scope:</p>
+	<ul>
+		<li>Third-party services and infrastructure, including Gumroad, Vercel, Cloudflare, Stripe, Resend, Kit/ConvertKit, and analytics providers.</li>
+		<li>Accounts, devices, workspaces, files, or data that you do not own or have explicit permission to test.</li>
+		<li>Previously reported issues that are already being remediated, unless you have material new evidence.</li>
+	</ul>
+
+	<h2 id="testing">Safe-testing boundaries</h2>
+	<p>Research must use your own accounts, devices, and data. You must not:</p>
+	<ul>
+		<li>Access, retain, alter, delete, or disclose another person's data.</li>
+		<li>Perform denial-of-service, load, stress, or other testing that could degrade availability.</li>
+		<li>Use credential stuffing, password spraying, brute force, phishing, social engineering, spam, or malware.</li>
+		<li>Attempt payment fraud, interfere with fulfillment, or generate real transactions without authorization.</li>
+		<li>Establish persistence, move laterally, or exploit beyond the minimum needed to demonstrate impact.</li>
+		<li>Test employees, contractors, physical locations, or any third-party provider.</li>
+	</ul>
+	<p>
+		If you encounter personal data, credentials, or evidence of active
+		compromise, stop testing, preserve only the minimum evidence needed, and
+		report it immediately.
+	</p>
+
+	<div class="policy-callout">
+		<h2 id="good-faith">Good-faith research</h2>
+		<p>
+			We consider research conducted in good faith and consistent with this
+			policy to be authorized. We will not initiate legal action solely for an
+			accidental, good-faith violation of this policy. This authorization does
+			not extend to third-party systems, violations of applicable law, or actions
+			that create avoidable harm. If you are unsure whether a test is permitted,
+			contact us before proceeding.
+		</p>
+	</div>
+
+	<h2 id="response">What to expect</h2>
+	<p>
+		We aim to acknowledge a complete report within seven calendar days and
+		will share material updates when practical. These are targets, not
+		guarantees. Remediation timing depends on severity, complexity, and whether
+		the issue is being actively exploited.
+	</p>
+	<p>
+		Please coordinate public disclosure with us. Unless we agree to another
+		timeline, allow up to 90 days after a complete report for investigation and
+		remediation. We may ask for more time when a fix depends on a third party or
+		a safe release cannot reasonably be completed within that period.
+	</p>
+
+	<div class="policy-callout policy-callout--caution">
+		<h2 id="bounty">No bounty promise</h2>
+		<p>
+			This is a vulnerability disclosure policy, not a bug-bounty program. We do
+			not promise payment, rewards, reimbursement, or other compensation. Any
+			bounty or paid engagement must be agreed in writing before the work begins.
+		</p>
+	</div>
+
+	<p class="policy-meta">
+		Last updated: August 2, 2026. Machine-readable contact information is
+		available at <a href="/.well-known/security.txt">/.well-known/security.txt</a>.
+	</p>
+</Layout>
+
+<style>
+	:global(.prose .title h1) {
+		font-size: clamp(2.2rem, 9vw, 3.5rem);
+		text-wrap: balance;
+		overflow-wrap: normal;
+		word-break: normal;
+	}
+	.security-brief {
+		position: relative;
+		overflow: hidden;
+		margin-bottom: 3rem;
+		padding: 1.75rem;
+		border: 1px solid rgba(37, 99, 235, 0.24);
+		border-radius: 16px;
+		background:
+			linear-gradient(135deg, rgba(37, 99, 235, 0.1), rgba(240, 247, 255, 0.76)),
+			white;
+		box-shadow: 0 18px 45px rgba(30, 58, 95, 0.08);
+	}
+	.security-brief::after {
+		content: '';
+		position: absolute;
+		top: -55px;
+		right: -45px;
+		width: 150px;
+		height: 150px;
+		border: 22px solid rgba(37, 99, 235, 0.08);
+		border-radius: 50%;
+		pointer-events: none;
+	}
+	.policy-kicker {
+		display: flex;
+		align-items: center;
+		gap: 0.55rem;
+		margin: 0 0 0.75rem;
+		color: var(--brand-primary);
+		font-size: 0.78rem;
+		font-weight: 800;
+		letter-spacing: 0.12em;
+		text-transform: uppercase;
+	}
+	.policy-kicker span {
+		width: 0.6rem;
+		height: 0.6rem;
+		border-radius: 50%;
+		background: #16a34a;
+		box-shadow: 0 0 0 5px rgba(22, 163, 74, 0.12);
+	}
+	.policy-intro {
+		position: relative;
+		z-index: 1;
+		max-width: 620px;
+		margin: 0;
+		font-size: 1.1rem;
+		color: rgb(var(--gray-dark));
+	}
+	.brief-facts {
+		position: relative;
+		z-index: 1;
+		display: grid;
+		grid-template-columns: 1.35fr 1fr 1fr;
+		gap: 1px;
+		margin: 1.5rem 0 0;
+		overflow: hidden;
+		border: 1px solid rgba(37, 99, 235, 0.16);
+		border-radius: 10px;
+		background: rgba(37, 99, 235, 0.16);
+	}
+	.brief-facts div {
+		padding: 0.85rem 1rem;
+		background: rgba(255, 255, 255, 0.88);
+	}
+	.brief-facts dt {
+		margin-bottom: 0.15rem;
+		color: rgb(var(--gray));
+		font-size: 0.72rem;
+		font-weight: 700;
+		letter-spacing: 0.04em;
+		text-transform: uppercase;
+	}
+	.brief-facts dd {
+		margin: 0;
+		color: rgb(var(--black));
+		font-size: 0.9rem;
+		font-weight: 700;
+	}
+	h2 {
+		margin-top: 2.75rem;
+		font-size: clamp(1.65rem, 4vw, 2rem);
+	}
+	li + li {
+		margin-top: 0.35rem;
+	}
+	.policy-callout {
+		margin: 3rem 0;
+		padding: 0.25rem 1.5rem 0.4rem;
+		border-left: 4px solid var(--brand-primary);
+		border-radius: 0 12px 12px 0;
+		background: var(--brand-light);
+	}
+	.policy-callout h2 {
+		margin-top: 1.25rem;
+	}
+	.policy-callout--caution {
+		border-left-color: var(--brand-accent);
+		background: rgba(245, 158, 11, 0.09);
+	}
+	.policy-meta {
+		margin-top: 3rem;
+		padding-top: 1.5rem;
+		border-top: 1px solid rgb(var(--gray-light));
+		font-size: 0.9rem;
+		color: rgb(var(--gray));
+	}
+	code {
+		font-size: 0.9em;
+	}
+	@media (max-width: 640px) {
+		.security-brief {
+			padding: 1.25rem;
+		}
+		.brief-facts {
+			grid-template-columns: 1fr;
+		}
+		.policy-callout {
+			padding-right: 1rem;
+			padding-left: 1rem;
+		}
+	}
+</style>

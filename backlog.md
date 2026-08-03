@@ -7,17 +7,57 @@
 
 ---
 
+## Canonical Product Decisions (reconciled 2026-08-02)
+
+- **Product:** Conduital is a local-first Windows 10/11 desktop application, not a Notion template or web/mobile SaaS.
+- **Data:** Projects, tasks, and notes remain in standard markdown files on the user's machine. Optional Dropbox/iCloud/Git sync is user-controlled; Conduital does not upload the user's workspace.
+- **AI:** Optional, using the customer's own OpenAI-compatible API key. Core workflows work offline.
+- **Pricing:** Free ($0), GTD ($49 one-time), and GTD+ ($79 one-time), with no subscription and lifetime updates within the purchased tier.
+- **Approved risk-reducer:** “One-time purchase · No subscription · Free lifetime updates within your tier.” Do not promise a refund period until the actual seller policy is confirmed.
+- **Mac:** A Q3 2026 target was previously published. Revalidate the schedule before repeating it; do not claim a Mac version is available.
+- **Architecture:** Astro/Vercel marketing site; Kit/ConvertKit tag-based email signup through a serverless proxy; Stripe→Resend stateless fulfillment with no site database.
+- **Unresolved product/operational decisions:** Gumroad refund setting; tier-specific deep-link support; final OG artwork; official public contact aliases; exact legal/company naming (`Silver Sage Software, LLC` vs `Silver Sage, LLC`); Mac schedule.
+
+---
+
 ## TL;DR — Top Findings
 
-1. **Product identity contradicts itself across pages.** The hero says "Notion-based operating system," the FAQ says "local-first markdown files," the Download page ships a Windows `.exe`, and the home-page JSON-LD claims "Web, iOS, Android" with `price: 0`. A first-time visitor cannot tell what they're buying. **This is the single biggest revenue blocker.**
-2. **No price anywhere on the marketing site.** Every CTA punts to Gumroad. Visitors must leave to learn cost. No price anchor, no risk-reducer (refund/guarantee), no tier comparison.
-3. **Two visible placeholder/broken elements** — Footer ConvertKit form has `action="#"` + TODO comment; footer Twitter link is `href="#"`. Both ship to production today.
-4. **No social proof at all** — no testimonials, no user count, no reviews, no logos, no Product Hunt badge, no creator photo.
-5. **Interactive demos are clever but lonely.** Momentum demo + chaos slider are the most memorable parts of the page, but the rest of the funnel doesn't reinforce them with outcome stories or proof.
+1. **The download page publishes the wrong installer SHA-256.** The page advertises `833c0fc7…`, while the hosted 1.4.1 executable hashes to `A0B7461B…`. File-size copy is also inaccurate. Fix this release-integrity defect before acquisition work.
+2. **Product identity still contradicts itself across pages.** The hero says "Notion-based operating system," the FAQ and newer blog posts describe local-first markdown, the Download page ships Windows software, `llms.txt` calls it a Notion template, and JSON-LD claims Web/iOS/Android with `price: 0`.
+3. **No price appears on the marketing site.** Every CTA punts to Gumroad. Visitors cannot see the Free/GTD/GTD+ choice, cost, or approved risk-reducer without leaving.
+4. **Visible defects remain:** footer email and Twitter placeholders, a corrupt six-byte `favicon.svg`, dead `/features` and `/pricing` blog links, and a Product Hunt banner that still says “today.”
+5. **Social proof is limited.** A Product Hunt badge/embed now exists, but the site still has no real testimonial, creator photo, customer count, or outcome story. The demos remain stronger than the surrounding proof.
 
 ---
 
 ## P0 — Conversion-blocking. Fix this week.
+
+### BUG-1. Repair installer integrity metadata
+- Update the Download page to the actual `ConduitalSetup-1.4.1.exe` SHA-256: `A0B7461BA4F75BD0F755D4A6BE334C6FC3CD7E262B9463602ED18725F7AEF641`.
+- Correct the displayed size (28,778,231 bytes; choose and label decimal MB or binary MiB consistently).
+- Add a release check/script so version, size, and checksum are derived from the hosted artifact instead of copied by hand.
+- Rebuild and verify `/download/latest` still resolves to the same artifact before deployment.
+
+### SEC-1. Investigate and revoke the secret-like literal in ignored worktree settings
+- A local ignored `.claude/worktrees/*/.claude/settings.local.json` contains a literal secret-like command argument. Do not copy it into tickets, commits, or logs.
+- Determine what credential it is, revoke/rotate it if it may still be valid, then sanitize the local file. Confirm no tracked history contains the value.
+
+### BUG-2. Replace the corrupt SVG favicon
+- `public/favicon.svg` is a six-byte binary fragment, not valid SVG, while `BaseHead.astro` advertises it as `image/svg+xml`.
+- Replace it with a valid branded SVG and verify favicon rendering plus fallback `.ico` behavior.
+
+### BUG-3. Fix confirmed dead internal links
+- `why-solopreneurs-leaving-subscription-productivity-apps-2026.md` links to nonexistent `/features` and `/pricing` routes.
+- Point to real sections/routes or ship the routes intentionally; add an internal-link check to CI.
+
+### BUG-4. Retire time-sensitive Product Hunt launch copy
+- Replace or remove “We're live on Product Hunt today!” while preserving the evergreen badge/embed if still useful.
+
+### SEC-2. Begin staged DMARC deployment
+- Create and verify a reporting route such as `dmarc-reports@conduital.com`.
+- Publish `_dmarc.conduital.com` initially as `v=DMARC1; p=none; rua=mailto:dmarc-reports@conduital.com`.
+- Monitor a meaningful sending cycle (recommended 2–4 weeks), verify the known Resend stream remains aligned, then move deliberately to `quarantine` and `reject`.
+- Leave Cloudflare's provider-prescribed root SPF record unchanged unless the mail inventory/provider guidance changes.
 
 ### CRO-1. Resolve the product-identity contradiction
 - Decide canonically: is Conduital a **Windows desktop app**, a **Notion template**, or both? (Code says Windows; Gumroad tagline says "AI-Powered Productivity System"; hero says "Notion-based.")
@@ -45,9 +85,29 @@
 
 ## P1 — Important. Fix this sprint.
 
+### SEC-3. Publish a security contact and disclosure policy
+- Add RFC 9116 `public/.well-known/security.txt` and a concise policy with contact, scope, safe-testing boundaries, required reproducible evidence, and a statement that no bounty is promised unless agreed in writing.
+- Do not contact or pay the prior unsolicited reporter as part of this item.
+
+### REL-1. Decide and implement Windows installer signing
+- The hosted 1.4.1 executable has valid embedded version metadata but is not Authenticode-signed.
+- Evaluate an appropriate code-signing path, timestamp releases, and document verification/release ownership.
+
+### BUG-5. Reconcile public company and contact identity
+- Resolve `Silver Sage Software, LLC` vs `Silver Sage, LLC` copy.
+- Decide whether public general/support aliases are `info@conduital.com` and `support@conduital.com`; an unmerged historical commit intentionally selected those over `greg@conduital.com`.
+- Update Footer, FAQ, disclosure policy, and mail-routing inventory together after the aliases are verified.
+
+### TECH-1. Make build/test documentation truthful and portable
+- `.env.example` incorrectly says a missing Stripe secret permits unverified production processing; current code fails closed.
+- `npm test` uses `node --test test/`, which fails on the current Windows/Node 24 environment. Use an explicit portable test-file pattern.
+- Replace the mostly-stock Astro README with current architecture, release, test, and operational guidance.
+- Run webhook tests in CI, not only the Astro build.
+
 ### CRO-5. Add social proof above the fold (or just below it)
 - Even one real testimonial with a face and a job title outperforms zero. If we don't have any yet, run a 1-week ask to early users via the existing email list.
 - Sub-elements once available: testimonial carousel, "Used by N knowledge workers" counter (only if true), Product Hunt badge, screenshot callouts of customer Notion/file workspaces.
+- **Current evidence:** Product Hunt banner/badge/embed shipped 2026-05-12; testimonial and human/customer proof remain open.
 
 ### CRO-6. Build a "How It Works" 3-step section
 - Visitors see chaos→clarity but don't see the **user journey**. Add a 3-step: (1) Capture, (2) Conduital routes & scores, (3) You ship. One sentence + one micro-screenshot per step.
@@ -108,7 +168,7 @@
 - Single overlay on first exit-intent only. Offer: a short PDF (e.g., "The Weekly Review That Doesn't Die"). Reuses existing ConvertKit pipe.
 
 ### CMO-6. Blog content velocity
-- Currently 2 posts. Target 1/week minimum, mix of (a) productivity philosophy, (b) Conduital tutorial, (c) customer story.
+- Currently 5 posts (2 March, 3 June). Target 1/week minimum, mix of (a) productivity philosophy, (b) Conduital tutorial, (c) customer story.
 - Add tag/topic taxonomy to `src/content.config.ts` so posts surface by category.
 
 ### CMO-7. Article-level JSON-LD + per-post OG images
@@ -120,6 +180,21 @@
 ### CMO-9. Accessibility audit
 - Run axe/Lighthouse on every page. Known smells: comparison slider has no keyboard control; lightbox has no focus trap; momentum demo has no announcements for screen readers.
 
+### TECH-2. Add fulfillment failure recovery
+- Resend failures are acknowledged to Stripe with HTTP 200 to prevent duplicate key generation, but there is no durable retry/recovery path for a buyer who never receives the key.
+- Design idempotent fulfillment/recovery before changing retry behavior; never log or expose license keys casually.
+
+### TECH-3. Harden Stripe tier mapping contracts
+- Unknown or missing Stripe price metadata currently defaults to the GTD paid tier.
+- Validate configured price IDs/metadata explicitly and fail safely when the product catalog drifts.
+
+### TECH-4. Harden the public email-subscribe endpoint
+- Improve body and email validation, request-size handling, abuse/rate controls, and bot mitigation while keeping the Kit secret server-side.
+
+### TECH-5. Consolidate assets and release metadata
+- Dashboard and Projects images are duplicated byte-for-byte in `public` and `src/assets`.
+- Generate download version/size/checksum metadata from one artifact manifest and decide which asset path is canonical.
+
 ### Customer-Care-3. Bug/feedback intake
 - Add a "Report a bug" link in the footer + on the Download page. Either a Tally form or a `mailto:` with subject template. Today the only path is `greg@conduital.com` buried in the FAQ.
 
@@ -129,6 +204,19 @@
 ---
 
 ## v1 Roadmap (8 weeks, two-week cadence)
+
+### Sprint 0 (Immediate): "Restore trust and integrity"
+**Goal:** Remove release/security defects before driving more traffic.
+- BUG-1 (installer checksum/size + automated verification)
+- SEC-1 (secret investigation/rotation)
+- BUG-2 (valid favicon)
+- BUG-3 (dead internal links)
+- BUG-4 (stale launch copy)
+- SEC-2 (DMARC monitoring route and `p=none` publication)
+- SEC-3 (security.txt + disclosure policy)
+- TECH-1 (at least env/test/CI truthfulness fixes)
+
+**Definition of done:** The hosted installer matches its published checksum, no known literal credential remains active in local worktree settings, the site has no confirmed dead internal links or corrupt advertised assets, webhook tests run in CI, and DMARC monitoring/security reporting routes are live.
 
 ### Sprint 1 (Weeks 1–2): "Stop the bleeding"
 **Goal:** Fix conversion-killers and contradictions.
@@ -186,7 +274,7 @@
 
 ## How to use this file
 
-- **Adding a new item:** append to the right priority section with a `CRO-N`, `CMO-N`, or `Customer-Care-N` ID. Keep one-liners; details belong in `findings.md` or task-specific docs.
+- **Adding a new item:** append to the right priority section with a stable `CRO-N`, `CMO-N`, `Customer-Care-N`, `BUG-N`, `SEC-N`, `REL-N`, or `TECH-N` ID. Keep the summary concise; evidence/details belong in active planning findings or task-specific docs.
 - **Promoting/demoting:** move the line, don't rewrite the ID — IDs are stable references for `next-prompt.md` and progress logs.
 - **Closing:** strike-through the line and append `→ shipped YYYY-MM-DD (commit/PR ref)`. Don't delete — backlog history is signal.
 - **`next-prompt.md` writes:** at session end, pick 1–3 unshipped items by priority and bake their IDs + acceptance criteria into the next-session prompt.

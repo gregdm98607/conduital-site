@@ -1,9 +1,8 @@
 ---
 import Layout from '../layouts/Page.astro';
+import release from '../data/release-manifest.json';
 
-const version = '1.4.1';
-const fileSize = '28.27 MB';
-const sha256 = '833c0fc796207a8ce5782d033071e3c7c3eb7a15fc32988d7ebeccc4ffbaee56';
+const { version, sizeLabel, sha256, downloadPath } = release;
 ---
 
 <Layout
@@ -18,10 +17,10 @@ const sha256 = '833c0fc796207a8ce5782d033071e3c7c3eb7a15fc32988d7ebeccc4ffbaee56
 	<div class="download-card">
 		<div class="version-row">
 			<span class="version-tag">v{version}</span>
-			<span class="meta">Windows 10 / 11 · {fileSize}</span>
+			<span class="meta">Windows 10 / 11 · {sizeLabel}</span>
 		</div>
 
-		<a href="/download/latest" class="download-btn">
+		<a href={downloadPath} class="download-btn">
 			Download Conduital v{version}
 		</a>
 
