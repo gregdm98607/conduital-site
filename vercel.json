@@ -6,8 +6,13 @@
       "permanent": false
     },
     {
+      "source": "/download/v1.5.2",
+      "destination": "/downloads/ConduitalSetup-1.5.2.exe",
+      "permanent": false
+    },
+    {
       "source": "/download/latest",
-      "destination": "/downloads/ConduitalSetup-1.4.1.exe",
+      "destination": "/downloads/ConduitalSetup-1.5.2.exe",
       "permanent": false
     }
   ]
