@@ -141,7 +141,7 @@
 ### Customer-Care-2. Docs link in header
 - FAQ mentions a weekly review co-pilot, GTD workflows, Horizons of Focus. None of that is documented on the site. Stub a `/docs` index that at minimum links to the FAQ + a "Getting Started" page.
 
-### CMO-10. Depersonalize the home-page "Built by" section
+### ~~CMO-10. Depersonalize the home-page "Built by" section~~ → shipped 2026-08-21
 - Edit the `built-by` section in [src/pages/index.astro](src/pages/index.astro) (lines ~637–648). Today it reads:
   > **Built by a Knowledge Worker, for Knowledge Workers**
   > **GM** · **Greg Maxfield** — Creator of Conduital. I built this because I was drowning in productivity tools that didn't talk to each other. Conduital is the system I wished existed — one place where your projects, tasks, and knowledge actually work together.
